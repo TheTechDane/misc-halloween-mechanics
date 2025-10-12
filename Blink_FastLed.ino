@@ -1,3 +1,5 @@
+//BLINK !!
+
 #include <FastLED.h>  // Main FastLED library for controlling LEDs
 
 #define LED_STRIP 4
