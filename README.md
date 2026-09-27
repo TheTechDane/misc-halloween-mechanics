@@ -7,6 +7,7 @@ You can buy the many places I got them on Aliexpress https://www.aliexpress.com/
 ### Table of Contents
 1. [Monster eye](#Monster-eye)
 2. [T-Rex in the distance](#T-Rex-in-the-distance)
+3. [Scarry eyes](#Scarry-eyes)
 
 
 
@@ -28,12 +29,15 @@ It has 3 modes:
 - **Peak:** the t-rex appears in a flash for 2 seconds on a random interval between 30 and 60 seconds.
 - **Walk-by:** The flashlight switches on at the t-rea slowly passes by in the light (5 seconds) on a random interval between 20 and 50 seconds.
 
-### Details on the t-Rex rig.
 
-![alt text](images/JurassicParkSetup.png)![alt text](images/PRojector-3d-model.png)
+## Scarry eyes
+A stand alone set of eyes on AA batteries , with various light scenes to make it more lively.
+![alt text](<scarry eys/image.png>)
+Automatically cycles through 4 scenes:
 
-Artifacts:
-- ESP32 Code (written using Google Gemini) - My first attempt of a fully written AI code directed by me of carse ;-) [Full Code](Full-Jurassic-park-anamatronic/Full-Jurassic-park-anamatronic.ino)
-- My [Test Code](Jurasic-Park-theme/Jurasic-Park-theme.ino) for all the electronics.
-- [Schematics](images/Schematics-jurassicpark.jpg) - right now just a scan of the hand written one!
-- 3D Model [3mf file](<Full-Jurassic-park-anamatronic/Projector tube v17.3mf>) - Not on MakerWorld yet - Not sure if it should go there.
+- Breathe Scene: 10 seconds (10% to 100% brightness, 2s per pulse)
+- Solid Green: 10 seconds (100% brightness)
+- Breathe Scene: 10 seconds (10% to 100% brightness, 2s per pulse)
+- Off (Dark): 15 seconds (Strip completely dark)
+
+See more details here: [Scarry Eys Readme](<scarry eys/README.md>)
