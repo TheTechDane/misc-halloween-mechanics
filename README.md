@@ -29,6 +29,7 @@ It has 3 modes:
 - **Peak:** the t-rex appears in a flash for 2 seconds on a random interval between 30 and 60 seconds.
 - **Walk-by:** The flashlight switches on at the t-rea slowly passes by in the light (5 seconds) on a random interval between 20 and 50 seconds.
 
+More details here: [T-Rex Readme](Full-Jurassic-park-anamatronic/Readme.md)
 
 ## Scarry eyes
 A stand alone set of eyes on AA batteries , with various light scenes to make it more lively.
