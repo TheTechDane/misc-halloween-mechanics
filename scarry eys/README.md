@@ -34,3 +34,7 @@ It only requires a very small ATTiny412, a short LED strip (14 leds - or less), 
 ![alt text](image-1.png)
 ![alt text](image-2.png)
 
+
+## Box
+MakerWorld File:
+Inspired by this: [thingiverse.com/thing:2589020/files ](https://www.thingiverse.com/thing:2589020), but it has been redesigned completely to have multiple eyes, cleaner eye looks, with multi material print option and to house a 3 AA Battery pack 
