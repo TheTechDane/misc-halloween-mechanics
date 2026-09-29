@@ -7,7 +7,7 @@ You can buy the many places I got them on Aliexpress https://www.aliexpress.com/
 ### Table of Contents
 1. [Monster eye](#Monster-eye)
 2. [T-Rex in the distance](#T-Rex-in-the-distance)
-3. [Scarry eyes](#Scarry-eyes)
+3. [Spooky eyes](#Spooky-eyes)
 
 
 
@@ -27,13 +27,13 @@ My first ever full Animatronics A T-Rex appears in a flashlight on occasions and
 It has 3 modes:
 - **idle:** no flashlight and background sounds
 - **Peak:** the t-rex appears in a flash for 2 seconds on a random interval between 30 and 60 seconds.
-- **Walk-by:** The flashlight switches on at the t-rea slowly passes by in the light (5 seconds) on a random interval between 20 and 50 seconds.
+- **Walk-by:** The flashlight switches on at the t-rex slowly passes by in the light (5 seconds) on a random interval between 20 and 50 seconds.
 
 More details here: [T-Rex Readme](Full-Jurassic-park-anamatronic/Readme.md)
 
-## Scarry eyes
-A stand alone set of eyes on AA batteries , with various light scenes to make it more lively.
-![alt text](<scarry eys/image.png>)
+## Spooky eyes
+A stand alone set of eyes on AA batteries , with various light scenes to make it more lively.![alt text](<Spooky eyes/image.png>)
+
 Automatically cycles through 4 scenes:
 
 - Breathe Scene: 10 seconds (10% to 100% brightness, 2s per pulse)
@@ -41,4 +41,4 @@ Automatically cycles through 4 scenes:
 - Breathe Scene: 10 seconds (10% to 100% brightness, 2s per pulse)
 - Off (Dark): 15 seconds (Strip completely dark)
 
-See more details here: [Scarry Eys Readme](<scarry eys/README.md>)
+See more details here: [Spooky Eyes Readme](<Spooky eyes/README.md>)
