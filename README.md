@@ -32,7 +32,7 @@ It has 3 modes:
 More details here: [T-Rex Readme](Full-Jurassic-park-anamatronic/Readme.md)
 
 ## Spooky eyes
-A stand alone set of eyes on AA batteries , with various light scenes to make it more lively.![alt text](<Spooky eyes/image.png>)
+A stand alone set of eyes on AA batteries , with various light scenes to make it more lively.![alt text](<Spooky eyes/image.jpg>)
 
 Automatically cycles through 4 scenes:
 
