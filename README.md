@@ -10,14 +10,15 @@ You can buy the many places I got them on Aliexpress https://www.aliexpress.com/
 3. [Spooky eyes](#Spooky-eyes)
 
 
-
 ## Monster eye
 Early start on a Eye that will be part of a Jurassic Park Themes installation 
 
 <video controls src="images/DragonEye.mp4" title="Title"></video>
-Artifacts:
-- The simple ESP32 code [Sketch](Dragon_Eye/Dragon_Eye.ino)
-- 3-D Model on [Maker World](https://makerworld.com/en/models/1428108-dragon-eye-light-for-maker-s-supply-puck-light#profileId-1484523)
+
+Various Scenes - Use the stand alone sketch or use the Spook eyes controller (and switch the color as you see fit) 
+
+More details here: [Monster Eye Readme](Dragon_Eye/readme.md)
+
 
 ## T-Rex in the distance
 My first ever full Animatronics A T-Rex appears in a flashlight on occasions and makes sounds when it appears - while not appearing it plays some Jurassic Park alike sounds.
