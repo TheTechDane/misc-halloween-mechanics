@@ -1,8 +1,9 @@
 # Monster eye
 
 This will hold more details on the Monster eye.
+![](image.png)
 
-<video controls src="PXL_20261014_163059410.mp4" title="Title"></video>
+
 
 Artifacts:
 - The simple ESP32 code [Sketch](Dragon_Eye/Dragon_Eye.ino)
@@ -18,3 +19,5 @@ Automatically cycles through 4 scenes:
 
 **NOTE** The new version of the Spooky Eye allow for changing colors and dimming the LEDs using a Active low button on pin5
 ![alt text](PXL_20261014_141804234.jpg)
+![alt text](PXL_20261014_181542682.jpg)
+![alt text](PXL_20261014_181500027.jpg)
