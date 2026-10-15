@@ -18,6 +18,9 @@ Automatically cycles through 4 scenes:
 - Off (Dark): 15 seconds (Strip completely dark)
 
 **NOTE** The new version of the Spooky Eye allow for changing colors and dimming the LEDs using a Active low button on pin5
+**RECOMMENDATION** Use a black Sharpie to paint anything that sits in the middle, so it can not be seen through the opening in the eye
+
+
 ![alt text](PXL_20261014_141804234.jpg)
 ![alt text](PXL_20261014_181542682.jpg)
 ![alt text](PXL_20261014_181500027.jpg)
