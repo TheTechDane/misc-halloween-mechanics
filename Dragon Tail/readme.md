@@ -1,107 +1,131 @@
-# 🐉 Dragon Tail Halloween Prop Controller (v2.0)
+# 🐉 Dragon Tail Halloween Prop Controller (v2.4)
 
-An ESP32-C3 based continuous hardware controller designed for an animatronic or wearable Dragon Tail Halloween prop. Features dual-zone continuous rotation (360°) servo motion paired with hardware I2S digital audio streaming directly from internal LittleFS storage.
-
----
-
-## 🛠️ Hardware Requirements
-
-* **Microcontroller:** Seeed Studio XIAO ESP32-C3
-* **Servo Motor:** SG90 360° Continuous Rotation Servo
-* **Audio DAC:** MAX98357A I2S 3.2W Amplifier / Line-Out Board
-* **Input:** 10kΩ Linear Potentiometer
-* **Speaker:** 4Ω / 8Ω Passive Speaker or Portable Aux Speaker
-* **Power Source:** 5V USB Power Supply / Power Bank (via Microcontroller VBUS)
+An animatronic prop controller firmware built for the **Seeed Studio XIAO ESP32-C3**. It provides non-blocking, potentiometer-controlled continuous rotation servo movements alongside seamless multi-track MP3 audio playback via I2S and LittleFS.
 
 ---
 
-## 📌 Wiring Diagram & Pinout
+## 🛠️ Hardware Requirements & Specifications
 
-All pins are assigned to ensure separation between ADC sampling, hardware PWM, and I2S audio data channels:
+* **Microcontroller:** Seeed Studio XIAO ESP32-C3 (RISC-V single-core @ 160MHz)
+* **Servo Motor:** 360° Continuous Rotation Servo (e.g., SG90 / MG996R continuous variant)
+* **Audio DAC / Amp:** MAX98357A I2S 3.2W Class-D Amplifier
+* **Input Control:** 10kΩ Linear Potentiometer
+* **Speaker:** 4Ω or 8Ω Passive Speaker (3W+)
+* **Power Source:** 5V USB Power Supply / Power Bank (connected via VBUS)
+
+---
+
+## 📌 Hardware Pinout & Wiring Diagram
+
+The Seeed Studio XIAO ESP32-C3 features 7 pins on each side header:
 
 ```text
-                  +-----------------------------------+
-                  |   Seeed Studio XIAO ESP32-C3      |
-                  |                                   |
-[3.3V Rail] <-----+ 3V3                     (5V VBUS) +-----> [5V Rail]
-[GND Rail]  <-----+ GND                         GND   +-----> [GND Rail]
-                  |                                   |
-                  | D0/GPIO2                          |
-                  | D1/GPIO3                 D10/CS   |
-[Pot. Wiper] <----+ D2/GPIO4/A2            D9/GPIO9   |
-[I2S LRC/WS] <----+ D3/GPIO5/A3            D8/GPIO8   |
-[I2S BCLK]   <----+ D4/GPIO6/SDA         D7/GPIO21    +-----> [Servo Signal]
-[I2S DOUT]   <----+ D5/GPIO7/SCL         D6/GPIO20    |
-                  +-----------------------------------+
+                  +-------------------+
+                  |   XIAO ESP32-C3   |
+                  |     [USB-C]       |
+                  |                   |
+       GPIO2/D0 -| D0           VBUS |- VBUS (5V Servo Red / Amp VIN)
+       GPIO3/D1 -| D1            GND |- GND (Common Ground)
+ (Wiper) GPIO4  -| D2       3.3V-OUT |- 3.3V-OUT (Pot. Pin 1)
+  (LRC)  GPIO5  -| D3            D10 |- D10 / GPIO10
+  (BCLK) GPIO6  -| D4             D9 |- D9 / GPIO9
+  (DOUT) GPIO7  -| D5             D8 |- D8 / GPIO8 (Servo Signal Wire)
+  (TX)  GPIO21  -| D6             D7 |- D7 / GPIO20
+                  +-------------------+
 ```
 
-| Component Wire | XIAO ESP32-C3 Pin | Header Location | Description |
-| :--- | :--- | :--- | :--- |
-| **Potentiometer Outer 1** | **`3.3V`** | Left Side (1st down) | Potentiometer Power (3.3V) |
-| **Potentiometer Wiper (Middle)** | **`D2`** | Left Side (3rd down) | Analog Input (`GPIO4`) |
-| **Potentiometer Outer 2** | **`GND`** | Right Side (2nd down) | Common Ground |
-| **Servo Signal (Yellow/Orange)** | **`D7` / `GPIO21`** | Right Side (7th down) | Servo PWM Signal (`D10` alias) |
-| **Servo Power (Red)** | **`5V` / `VBUS`** | Right Side (1st down) | 5V Main Power Supply |
-| **Servo Ground (Black/Brown)** | **`GND`** | Right Side (2nd down) | Common Ground |
-| **MAX98357A LRC (WS)** | **`D3`** | Left Side (4th down) | I2S Word Select (`GPIO5`) |
-| **MAX98357A BCLK** | **`D4`** | Left Side (5th down) | I2S Bit Clock (`GPIO6`) |
-| **MAX98357A DOUT** | **`D5`** | Left Side (6th down) | I2S Serial Data (`GPIO7`) |
-| **MAX98357A VIN** | **`5V` / `VBUS`** | Right Side (1st down) | 5V Audio Amplifier Power |
-| **MAX98357A GND** | **`GND`** | Right Side (2nd down) | Common Ground |
+### Exact Hardware Mapping Table
 
-> ⚠️ **Important:** Connect both the **Servo Red Wire** and **MAX98357A VIN** to **5V / VBUS**, not 3.3V. Servos and amplifiers require 5V to prevent microcontroller brownouts during motor operation.
+| Component | Component Pin | XIAO ESP32-C3 Pin | GPIO | Power Rail |
+| :--- | :--- | :--- | :--- | :--- |
+| **Potentiometer** | Pin 1 (VCC) | `3.3V-OUT` | — | 3.3V Reference |
+| **Potentiometer** | Pin 2 (Wiper) | `D2` | `GPIO4` | Analog Input |
+| **Potentiometer** | Pin 3 (GND) | `GND` | — | Common Ground |
+| **Servo Motor** | Signal (Yellow/Orange) | `D8` | `GPIO8` | PWM Signal |
+| **Servo Motor** | Power (Red) | `VBUS` | — | **5V Power** |
+| **Servo Motor** | Ground (Brown/Black) | `GND` | — | Common Ground |
+| **MAX98357A Amp** | LRC / WS (Word Select) | `D3` | `GPIO5` | I2S Bus |
+| **MAX98357A Amp** | BCLK (Bit Clock) | `D4` | `GPIO6` | I2S Bus |
+| **MAX98357A Amp** | DIN / DOUT (Data) | `D5` | `GPIO7` | I2S Bus |
+| **MAX98357A Amp** | VIN | `VBUS` | — | **5V Power** |
+| **MAX98357A Amp** | GND | `GND` | — | Common Ground |
+
+> ⚠️ **Important:** Ensure both the Servo Red Wire and MAX98357A VIN connect to **VBUS (5V)**, while the potentiometer connects to **3.3V-OUT** to match the ESP32-C3 ADC reference voltage and prevent brownout resets during motor operation.
 
 ---
 
-## 📂 LittleFS Audio Directory Structure
-
-Before uploading firmware, place your sound files inside a `data/sounds/` directory in your Arduino sketch folder:
+## 📂 Project Directory Structure
 
 ```text
-DragonTailProp/
-  ├── DragonTailProp.ino
-  └── data/
-      └── sounds/
-          ├── roar_01.wav
-          ├── roar_02.wav
-          ├── growl.wav
-          └── hiss.wav
+Dragontail_ctrl/
+├── Dragontail_ctrl.ino
+├── README.md
+└── data/
+    └── sounds/
+        ├── roar01.mp3
+        ├── roar02.mp3
+        └── growl.mp3
 ```
 
-### 🔊 Recommended Audio Format
-To achieve clean audio quality while preserving LittleFS flash memory space:
-* **Format:** Uncompressed PCM `.wav`
-* **Sample Rate:** `22,050 Hz`
-* **Channels:** `Mono` (1 Channel)
-* **Bit Depth:** `16-bit`
+---
+
+## 🎧 Audio Preparation & Batch Conversion (Audacity)
+
+To fit multiple audio tracks into the LittleFS flash partition (~1.4 MB total), audio files are converted to **MP3 format**:
+
+1. Open **Audacity** and drag all sound tracks into the project workspace simultaneously.
+2. Select all tracks (`Ctrl + A`).
+3. Open Export Dialog: **File** $\rightarrow$ **Export Audio...** (`Ctrl + Shift + E`).
+4. In the top section under **Export Range**, select **`Multiple files`** (Split files based on: *Tracks*).
+5. Configure format options:
+   * **Format:** `MP3 Files`
+   * **Bit Rate Mode:** `Constant` (128 kbps) or `Variable`
+   * **Channels:** `Mono` or `Stereo`
+6. Set destination folder to your sketch's `data/sounds/` directory.
+7. Click **Export**.
 
 ---
 
-## ⚙️ How It Works
+## ⚡ Uploading Audio Files to ESP32-C3 LittleFS
 
-1. **Parallel Operation:** Audio streaming (`audio.loop()`) runs continuously in the background via hardware DMA channels, ensuring 50 Hz PWM servo updates (`myServo.writeMicroseconds()`) execute simultaneously without motor stutter.
-2. **Round-Robin Sound Loop:** The firmware automatically scans `/sounds/`, plays each `.wav` file sequentially, and rewinds back to the beginning upon reaching the end of the folder.
-3. **Calibrated Dual-Zone Servo Speed:**
-   * **Full Left:** Tail wags **Left (CCW)** at maximum speed (`1200µs` pulse).
-   * **Center (5kΩ Midpoint / ADC 2048):** **OFF / STOPPED** (`1500µs` pulse with deadband).
-   * **Full Right:** Tail wags **Right (CW)** at maximum speed (`1800µs` pulse).
-
----
-
-## 🚀 Software Installation
-
-1. **Required Arduino Libraries:**
-   * **ESP32Servo** by Kevin Harrington
-   * **ESP32-audioI2S** by Wolle (wollewald)
-2. **Board Configuration:**
-   * Select **XIAO_ESP32C3** under `Tools -> Board -> ESP32 Arduino`.
-   * Set Partition Scheme to **Default 4MB with spiffs/littlefs**.
-3. **Upload Steps:**
-   * Upload audio assets using **Tools -> ESP32 LittleFS Data Upload**.
-   * Flash `DragonTailProp.ino` to the board and open the Serial Monitor at **115200 baud**.
+1. In **Arduino IDE 2.x**, install the **`arduino-littlefs-upload`** plugin (`.vsix`).
+2. Verify all `.mp3` files are located inside `data/sounds/`.
+3. **Close the Serial Monitor** (or restart Arduino IDE) to release the COM port lock.
+4. Open Command Palette (`Ctrl + Shift + P` or `Cmd + Shift + P` on Mac).
+5. Select **`Upload LittleFS to ESP32`**.
+6. Wait for the upload process to report `Success`.
 
 ---
 
-## 📜 License
+## ⚙️ Software Configuration & Features (v2.4)
 
-MIT License. Free to use and modify for personal Halloween prop projects!
+### Key Parameters in `Dragontail_ctrl.ino`
+
+```cpp
+const int MAX_SPEED_PERCENT = 50;  // Maximum servo speed limit (0 to 100%)
+const int DEADBAND          = 50;  // ADC deadband around center position (2048)
+const int STOP_PULSE        = 1500; // Microsecond pulse for continuous servo stop
+```
+
+### Core Logic Features
+
+1. **Change-Triggered Telemetry with Hysteresis:** Serial Monitor output triggers only when the speed percentage changes by **more than 3 percentage points** (`abs(speedPercent - lastReportedPercent) > 3`), keeping output clean during steady movement or minor ADC noise.
+2. **Speed Scaling:** Configured max speed limit is set to **50%**, mapping full pot deflection symmetrically to $\pm 50\%$ PWM pulse offsets ($\pm 250\mu s$ from stop pulse).
+3. **Non-Blocking Architecture:** Audio decoding and servo loop timing run asynchronously without `delay()` calls, preventing motor stutter during audio streaming.
+
+---
+
+## 📖 Appendix: Troubleshooting & Technical Reference
+
+### 1. No Output in Serial Monitor
+* Ensure **Tools** $\rightarrow$ **USB CDC On Boot** is set to **`Enabled`** in Arduino IDE.
+* Set baud rate to **`115200 baud`**.
+
+### 2. "ERROR: No port specified, check IDE menus"
+* Close **Serial Monitor** in Arduino IDE.
+* Re-select the active COM port in the top dropdown bar (**Select other board and port...**).
+* Restart Arduino IDE to completely reset port binding.
+
+### 3. Audio Stutter or Distortion
+* Confirm files are valid `.mp3` format placed in `data/sounds/`.
+* Verify power connections; ensure MAX98357A and continuous servo share a common ground with the ESP32-C3.
